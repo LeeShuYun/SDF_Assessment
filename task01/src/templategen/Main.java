@@ -18,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         // instructions
-        System.out.println(">>> javac -cp classes templategen.Main <csv> <template>");
+        System.out.println("Usage>>> javac -cp classes templategen.Main <csv> <template>");
         
         //parse commands       
         String csvFile = args[0];
@@ -30,31 +30,31 @@ public class Main {
 
         //prep work opening csv file and loading text
         String csvfilePath = csvFile;
-        File fileObj = Paths.get(csvfilePath).toFile();
-        FileReader fileReader = new FileReader(fileObj);
+        FileReader fileReader = new FileReader(csvFile);
         BufferedReader br = new BufferedReader(fileReader);
         
-        String csvLine;
-        
-        //contains our replacement name variables
-        HashMap<String, String> csvMap = new HashMap<>();
-        List<HashMap<String, String>> csvMapList = new LinkedList<>();
-
-        //grabbing header
+        //grabbing header first
         String header = br.readLine(); 
-        System.out.println("TEST>>>" + header);
+        // System.out.println("HEADER>>>" + header);
         String[] headerLabels = header.trim().split(",");
-            
+        HashMap<String, String> csvMap;
+        //contains our replacement name variables
+        List<HashMap<String, String>> csvMapList = new LinkedList<>();
+        String csvLine;
+        String[] csvLineList;
         //creating the list of hashmap of replacements to put into the template
         while ((csvLine = br.readLine()) != null){
+            csvMap = new HashMap<>();
             //read a line
-            String[] csvLineList = br.readLine().trim().split(",");
+            // System.out.println("CSVLINE:" + csvLine); //test string
+            csvLineList = csvLine.trim().split(",");
             
             //matching each label with its corresponding value and inserting into hashmap
             for (Integer i = 0; i < headerLabels.length; i++) {
                 csvMap.put(headerLabels[i], csvLineList[i]);
+                // System.out.println("Label:" + headerLabels[i] + ": " + csvLineList[i]);
             }
-            //pop the finished set of replacement into the list
+            //pop the finished map of replacement into the list for later processing
             csvMapList.add(csvMap);
         }
 
@@ -73,35 +73,34 @@ public class Main {
         String templateOutput;
         String completedTemplate ="";
         //generating the complete template String first
-        while ((templateOutput = br.readLine()) != null){
-            String line = br.readLine();
-            completedTemplate = completedTemplate + line;
+        while ((templateOutput = bufferedreader.readLine()) != null){
+            // System.out.println(templateOutput);
+            // String line = bufferedreader.readLine();
+            completedTemplate = completedTemplate + templateOutput;
             completedTemplate += "\n";
-        }
-
-        //searching thru the completed template string to find words to replace
-        for (HashMap<String, String> replacementWordsMap : csvMapList) {//for each set of replacement, we process and print
-            for (String replacementWord : headerLabels) {  //for each replacement word we look through the String
-                //check if the list has <<replacement>>
-                if (completedTemplate.contains("<<" + replacementWord + ">>")){
-                    // remove the <<>> and replace the variable with the correct one value
-                    completedTemplate.replaceAll("<<" + replacementWord + ">>", replacementWordsMap.get(replacementWord));
-                }
-            } 
-            //now that the set of replacements is complete, we print it out
-            System.out.println(completedTemplate);
-
         }
         bufferedreader.close();
         tempFileReader.close();
-
-    // }catch(FileNotFoundException e)
-    // {
-    // System.out.println("File not found." + e.getMessage());
-    // e.printStackTrace();
-    // }catch(IOException e)
-    // {
-    // e.printStackTrace();
-    // }
+        
+        //searching thru the completed template string to find words to replace
+        String finalMail = completedTemplate;
+        for (HashMap<String, String> replacementWordsMap : csvMapList) {//for each set of replacement, we process and print
+            // System.out.println("hashmap first names: " + replacementWordsMap.get("first_name"));
+            for (String replacementWord : headerLabels) {  //for each replacement word we look through the String
+                //check if the list has <<replacement>>
+                // if (completedTemplate.contains("<<" + replacementWord + ">>")){
+                    // remove the <<>> and replace the variable with the correct one value
+                    finalMail = finalMail.replace("<<" + replacementWord + ">>", replacementWordsMap.get(replacementWord));
+                    // System.out.println("<<" + replacementWord + ">>" + " => " + replacementWordsMap.get(replacementWord));
+                    // }
+                } 
+                //now that the set of replacements is complete, we print it out
+                System.out.println(finalMail);
+                
+                //reset the current instance of mail
+                finalMail = completedTemplate;
+                
+            }
+                
 }
 }

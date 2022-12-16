@@ -24,9 +24,9 @@ public class Test {
         // eg. {first_name: Harry}
 
         //prep work opening csv file and loading text
-        String csvfilePath = csvFile;
-        File fileObj = Paths.get(csvfilePath).toFile();
-        FileReader fileReader = new FileReader(fileObj);
+        // String  csvfilePath = csvFile;
+        // File fileObj = Paths.get(csvfilePath).toFile();
+        FileReader fileReader = new FileReader(csvFile);
         BufferedReader br = new BufferedReader(fileReader);
         
         String csvLine;
