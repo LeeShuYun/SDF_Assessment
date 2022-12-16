@@ -46,15 +46,15 @@ public class Main {
         while ((csvLine = br.readLine()) != null){
             csvMap = new HashMap<>();
             //read a line
-            // System.out.println("CSVLINE:" + csvLine); //test string
+            System.out.println("CSVLINE:" + csvLine); //test string
             csvLineList = csvLine.trim().split(",");
             
             //matching each label with its corresponding value and inserting into hashmap
             for (Integer i = 0; i < headerLabels.length; i++) {
                 csvMap.put(headerLabels[i], csvLineList[i]);
-                // System.out.println("Label:" + headerLabels[i] + ": " + csvLineList[i]);
+                System.out.println( headerLabels[i] + ": " + csvLineList[i]);
             }
-            //pop the finished map of replacement into the list for later processing
+            //pop the finished map of replacement into the list for  later processing
             csvMapList.add(csvMap);
         }
 
@@ -91,9 +91,11 @@ public class Main {
                 // if (completedTemplate.contains("<<" + replacementWord + ">>")){
                     // remove the <<>> and replace the variable with the correct one value
                     finalMail = finalMail.replace("<<" + replacementWord + ">>", replacementWordsMap.get(replacementWord));
+                    
                     // System.out.println("<<" + replacementWord + ">>" + " => " + replacementWordsMap.get(replacementWord));
                     // }
                 } 
+                finalMail = finalMail.replace("\\n", "\n");
                 //now that the set of replacements is complete, we print it out
                 System.out.println(finalMail);
                 
