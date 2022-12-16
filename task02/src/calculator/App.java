@@ -1,14 +1,14 @@
 package calculator;
 
-import java.util.Scanner;
+import java.io.Console;
 
 //java -cp classes calculator.App
 public class App {
     public static void main(String[] args) {
         // System.out.println("<number> <operator> <number>");
-
+        
         // reading the user input
-        Scanner sc = new Scanner(System.in);
+        Console cons = System.console();
         String userInput = "";
         System.out.println("Welcome.");
 
@@ -19,9 +19,8 @@ public class App {
         // loop to take inputs infinitely until exit is entered
         while (true) {
             // reading inputs
-            userInput = sc.nextLine();
+            userInput = cons.readLine("> ");
             userInput = userInput.trim();
-            System.out.println("> " + userInput);
 
             // check if it's an exit to get out of the calculator
             if ("exit".equals(userInput)) {
@@ -67,7 +66,5 @@ public class App {
             }
 
         }
-
-        sc.close();
     }
 }
