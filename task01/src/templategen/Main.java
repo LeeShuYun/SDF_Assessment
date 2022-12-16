@@ -1,7 +1,6 @@
-package task01.src;
+package templategen;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,17 +10,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.regex.*;
 
 /**
  * Generates a bunch of text with replaced strings
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         // instructions
-        System.out.println(">>> javac -sourcepath src -d classes src/Main.java <csv> <template>");
+        System.out.println(">>> javac -cp classes templategen.Main <csv> <template>");
         
         //parse commands       
         String csvFile = args[0];
@@ -74,11 +71,11 @@ public class Main {
 
         //prep work
         String templateOutput;
-
+        String completedTemplate ="";
         //generating the complete template String first
-        String completedTemplate; 
         while ((templateOutput = br.readLine()) != null){
-            completedTemplate += br.readLine();
+            String line = br.readLine();
+            completedTemplate = completedTemplate + line;
             completedTemplate += "\n";
         }
 
@@ -95,6 +92,8 @@ public class Main {
             System.out.println(completedTemplate);
 
         }
+        bufferedreader.close();
+        tempFileReader.close();
 
     // }catch(FileNotFoundException e)
     // {
@@ -104,4 +103,5 @@ public class Main {
     // {
     // e.printStackTrace();
     // }
+}
 }
