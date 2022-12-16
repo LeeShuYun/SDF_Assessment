@@ -22,21 +22,20 @@ public class App {
             userInput = sc.nextLine();
             userInput = userInput.trim();
             System.out.println("> " + userInput);
-            if ("exit".equals(userInput)) {// check if it's an exit to get out of the calculator
+
+            // check if it's an exit to get out of the calculator
+            if ("exit".equals(userInput)) {
+                System.out.println("Bye bye");
                 break;
             }
 
-            // checking for $last
-            String cleanInput = userInput;
-        
+            // checking for $last and replacing if any     
             if (userInput.contains("last")) {
-                cleanInput = userInput.replace("$last", lastVal);
-                System.out.println("we're in replace if now" + cleanInput);
-            } else { 
-                // there is no $last, don't do anything
+                userInput = userInput.replace("$last", lastVal);
             }
+
             // break the input into the commands
-            String[] commands = cleanInput.split(" ");
+            String[] commands = userInput.split(" ");
             // I thought of using Double because it works faster on chip but we don't need
             // the speed here.
             // Maybe with later iterations of calculators
