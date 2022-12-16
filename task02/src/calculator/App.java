@@ -1,6 +1,5 @@
 package calculator;
 
-import java.io.Console;
 import java.util.Scanner;
 
 //java -cp classes calculator.App
@@ -15,7 +14,7 @@ public class App {
 
         // prep work for calculations
         Float result;
-        String lastVal = ""; // any last calculated values are here
+        String lastVal = "0"; // any last calculated values are here
 
         // loop to take inputs infinitely until exit is entered
         while (true) {
@@ -29,48 +28,47 @@ public class App {
 
             // checking for $last
             String cleanInput = userInput;
-            if (userInput.contains("last") && lastVal.equals("")) {
-                System.out.println("Sorry, no last value. Do a calculation first.");
-            } else {  //we have a $last to replace or no $last at all
-                if (userInput.contains("last")) {
-                    cleanInput = userInput.replace("$last", lastVal);
-                } else { 
-                    // there is no last, don't do anything
-                }
-                // break the input into the commands
-                String[] commands = cleanInput.split(" ");
-                // I thought of using Double because it works faster on chip but we don't need
-                // the speed here.
-                // Maybe with later iterations of calculators
-                Float firstDigit = Float.valueOf(commands[0]);
-                Float secondDigit = Float.valueOf(commands[2]);
-                // evaluate expression
-                switch (commands[1]) {
-                    case "+":
-                        result = firstDigit + secondDigit;
-                        System.out.println(result);
-                        lastVal = Float.toString(result);
-                        break;
-                    case "-":
-                        result = firstDigit - secondDigit;
-                        System.out.println(result);
-                        lastVal = Float.toString(result);
-                        break;
-                    case "/":
-                        result = firstDigit / secondDigit;
-                        System.out.println(result);
-                        lastVal = Float.toString(result);
-                        break;
-                    case "*":
-                        result = firstDigit * secondDigit;
-                        System.out.println(result);
-                        lastVal = Float.toString(result);
-                        break;
-
-                }
+        
+            if (userInput.contains("last")) {
+                cleanInput = userInput.replace("$last", lastVal);
+                System.out.println("we're in replace if now" + cleanInput);
+            } else { 
+                // there is no $last, don't do anything
+            }
+            // break the input into the commands
+            String[] commands = cleanInput.split(" ");
+            // I thought of using Double because it works faster on chip but we don't need
+            // the speed here.
+            // Maybe with later iterations of calculators
+            Float firstDigit = Float.valueOf(commands[0]);
+            Float secondDigit = Float.valueOf(commands[2]);
+            // evaluate expression
+            switch (commands[1]) {
+                case "+":
+                    result = firstDigit + secondDigit;
+                    System.out.println(result);
+                    lastVal = Float.toString(result);
+                    break;
+                case "-":
+                    result = firstDigit - secondDigit;
+                    System.out.println(result);
+                    lastVal = Float.toString(result);
+                    break;
+                case "/":
+                    result = firstDigit / secondDigit;
+                    System.out.println(result);
+                    lastVal = Float.toString(result);
+                    break;
+                case "*":
+                    result = firstDigit * secondDigit;
+                    System.out.println(result);
+                    lastVal = Float.toString(result);
+                    break;
 
             }
 
         }
+
+        sc.close();
     }
 }
