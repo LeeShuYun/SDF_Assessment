@@ -97,7 +97,7 @@ public class Main {
                 //now that the set of replacements is complete, we print it out
                 System.out.println(finalMail);
                 
-                //reset the current instance of mail
+                //reset the current instance of mail for the next mail
                 finalMail = completedTemplate;
                 
             }
